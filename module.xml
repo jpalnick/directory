@@ -29,4 +29,4 @@
 	</changelog>
 	<location>release/2.11/directory-2.10.0.10.tgz</location>
 	<md5sum>c747cbb03c3c28b37c132ada24ce9da1</md5sum>
-</module>
+<supported><version>2.10</version></supported></module>
