@@ -45,4 +45,4 @@
 	</changelog>
 	<location>release/2.10/directory-2.10.0.0.tgz</location>
 	<md5sum>d0f285cb356ec14b16d4d8fa78a7b538</md5sum>
-</module>
+<supported><version>2.10</version></supported></module>
