@@ -189,6 +189,7 @@ class Dir{
 				//fallthough if not successfull
 			case 'spell':
 				foreach(str_split(strtolower($this->strip_accent($con['name'])),1) as $char){
+					//TODO: edit to allow custom sound files
 					dbug('saying '.$char.' from string '.strtolower($con['name']));
 					switch(true){
 						case ctype_alpha($char):

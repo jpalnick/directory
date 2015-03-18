@@ -37,7 +37,8 @@ while($loopcounter1 <= $dir->dir['repeat_loops']){
 	//hangup if we failed to receive anything meanigfull
 	if($loopcounter2 == 3){//seem like we ran out of tries...
 		//TODO: add custom sorry sound option
-		$dir->agi->stream_file('sorry-youre-having-problems');
+//		$dir->agi->stream_file('sorry-youre-having-problems');
+		$dir->agi->stream_file('custom/sorry-youre-having-problems');
 		$dir->bail();
 		break;
 	}
@@ -48,12 +49,14 @@ while($loopcounter1 <= $dir->dir['repeat_loops']){
 	while ($matches > 1 && $matchesloop < $dir->dir['repeat_loops'] && substr($search,-1)!='#') {
 		if ($matches < 10) {
 			//TODO: add custom sound options
-			$compound = array('silence/1','cdir-there-are',(integer)$matches,'cdir-matching-entries-or-pound');
+//			$compound = array('silence/1','cdir-there-are',(integer)$matches,'cdir-matching-entries-or-pound');
+			$compound = array('silence/1','custom/there-are',(integer)$matches,'custom/matching-entries');
 			$validdigits = '1234567890#';
 		} else {
 			// don't allow #, get new recording that indicates such
 			//TODO: add custom sound options
-			$compound = array('silence/1','cdir-there-are',(integer)$matches,'cdir-matching-entries-continue');
+//			$compound = array('silence/1','cdir-there-are',(integer)$matches,'cdir-matching-entries-continue');
+			$compound = array('silence/1','custom/there-are',(integer)$matches,'custom/matching-entries');
 			$validdigits = '1234567890';
 		}
 		$press=$dir->getKeypress($compound, $validdigits, 3000);
@@ -85,7 +88,8 @@ while($loopcounter1 <= $dir->dir['repeat_loops']){
 		//playback entries
 		$matches=$dir->search($search);
 		foreach($matches as $idx => $match){
-			$ret = $dir->getKeypress('for',$validkeys,0);
+//			$ret = $dir->getKeypress('for',$validkeys,0);
+			$ret = $dir->getKeypress('custom/for',$validkeys,0);
 			if (trim($ret['result'])) {
 				break;
 			}
@@ -93,7 +97,8 @@ while($loopcounter1 <= $dir->dir['repeat_loops']){
 			if (trim($ret['result'])) {
 				break;
 			}
-			$ret = $dir->getKeypress('press',$validkeys,0);
+//			$ret = $dir->getKeypress('press',$validkeys,0);
+			$ret = $dir->getKeypress('custom/press',$validkeys,0);
 			if (trim($ret['result'])) {
 				break;
 			}
