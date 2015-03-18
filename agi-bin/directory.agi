@@ -28,14 +28,15 @@ while($loopcounter1 <= $dir->dir['repeat_loops']){
 				$search = $dir->agi->fastpass_get_data($buffer, $dir->dir['announcement'],3000,3);
 			}
 		} else {
- 			$search = $dir->agi->fastpass_get_data($buffer, $dir->dir['repeat_recording'], 3000, 3);
-    	}
+			$search = $dir->agi->fastpass_get_data($buffer, $dir->dir['repeat_recording'], 3000, 3);
+		}
 		$search = $search['result'];//being set so we can use it later
 		$matches = $dir->search($search,1);
 		$loopcounter2++;
 	}
 	//hangup if we failed to receive anything meanigfull
 	if($loopcounter2 == 3){//seem like we ran out of tries...
+		//TODO: add custom sorry sound option
 		$dir->agi->stream_file('sorry-youre-having-problems');
 		$dir->bail();
 		break;
@@ -46,10 +47,12 @@ while($loopcounter1 <= $dir->dir['repeat_loops']){
 
 	while ($matches > 1 && $matchesloop < $dir->dir['repeat_loops'] && substr($search,-1)!='#') {
 		if ($matches < 10) {
+			//TODO: add custom sound options
 			$compound = array('silence/1','cdir-there-are',(integer)$matches,'cdir-matching-entries-or-pound');
 			$validdigits = '1234567890#';
 		} else {
 			// don't allow #, get new recording that indicates such
+			//TODO: add custom sound options
 			$compound = array('silence/1','cdir-there-are',(integer)$matches,'cdir-matching-entries-continue');
 			$validdigits = '1234567890';
 		}
@@ -94,6 +97,7 @@ while($loopcounter1 <= $dir->dir['repeat_loops']){
 			if (trim($ret['result'])) {
 				break;
 			}
+			//TODO: figure out a way to have custom digits
 			$ret = $dir->agi->say_digits($idx+1,$validkeys);
 			if (trim($ret['result'])) {
 				$ret['result'] = chr($ret['result']);

@@ -7,7 +7,7 @@ function directory_configpageload() {
 	global $currentcomponent, $display;
 	if ($display == 'directory' && (isset($_REQUEST['action']) && $_REQUEST['action']=='add'|| isset($_REQUEST['id']) && $_REQUEST['id']!='')) {
 		if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'add') {
-		  $currentcomponent->addguielem('_top', new gui_pageheading('title', _('Add Directory')), 0);
+			$currentcomponent->addguielem('_top', new gui_pageheading('title', _('Add Directory')), 0);
 
 			$deet = array('dirname', 'description', 'repeat_loops', 'announcement',
 						'repeat_recording', 'invalid_recording',
@@ -25,25 +25,25 @@ function directory_configpageload() {
 						$dir[$d] = 0;
 						break;
 					default:
-					$dir[$d] = '';
+						$dir[$d] = '';
 						break;
 				}
 			}
 		} else {
 			$dir				= directory_get_dir_details($_REQUEST['id']);
-			$label 				= sprintf(_("Edit Directory: %s"), $dir['dirname'] ? $dir['dirname'] : 'ID '.$dir['id']);
-      $def_dir = directory_get_default_dir();
-      if ($dir['id'] == $def_dir) {
-        $label .= ' ' . _("[SYSTEM DEFAULT]");
-      }
-		  $currentcomponent->addguielem('_top', new gui_pageheading('title', $label), 0);
+			$label				= sprintf(_("Edit Directory: %s"), $dir['dirname'] ? $dir['dirname'] : 'ID '.$dir['id']);
+			$def_dir = directory_get_default_dir();
+			if ($dir['id'] == $def_dir) {
+				$label .= ' ' . _("[SYSTEM DEFAULT]");
+			}
+			$currentcomponent->addguielem('_top', new gui_pageheading('title', $label), 0);
 			//display usage
 			$usage_list			= framework_display_destination_usage(directory_getdest($dir['id']));
 			$usage_list_text	= isset($usage_list['text']) ? $usage_list['text'] : '';
 			$usage_list_tooltip	= isset($usage_list['tooltip']) ? $usage_list['tooltip'] : '';
-      if (!empty($usage_list)) {
-			  $currentcomponent->addguielem('_top', new gui_link_label('usage', $usage_list_text, $usage_list_tooltip), 0);
-      }
+			if (!empty($usage_list)) {
+				$currentcomponent->addguielem('_top', new gui_link_label('usage', $usage_list_text, $usage_list_tooltip), 0);
+			}
 			//display delete link
 			$label 				= sprintf(_("Delete Directory %s"), $dir['dirname'] ? $dir['dirname'] : $dir['id']);
 			$label 				= '<span><img width="16" height="16" border="0" title="'
@@ -64,7 +64,7 @@ function directory_configpageload() {
 		foreach(recordings_list() as $r){
 			$currentcomponent->addoptlistitem('recordings', $r['id'], $r['displayname']);
 		}
-	    $currentcomponent->setoptlistopts('recordings', 'sort', false);
+		$currentcomponent->setoptlistopts('recordings', 'sort', false);
 		//build repeat_loops select list and defualt it to 3
 		for($i=0; $i <11; $i++){
 			$currentcomponent->addoptlistitem('repeat_loops', $i, $i);
@@ -81,7 +81,7 @@ function directory_configpageload() {
 		$currentcomponent->addguielem($section, new gui_hidden('id', $dir['id']));
 		$currentcomponent->addguielem($section, new gui_hidden('action', 'edit'));
 
-    //TODO: the &nbsp; needs to be here instead of a space, guielements freaks for some reason with this specific section name
+		//TODO: the &nbsp; needs to be here instead of a space, guielements freaks for some reason with this specific section name
 		$section = _('Directory&nbsp;Entries');
 		//draw the entries part of the table. A bit hacky perhaps, but hey - it works!
 		$currentcomponent->addguielem($section, new guielement('rawhtml', directory_draw_entries($dir['id']), ''));
@@ -93,7 +93,7 @@ function directory_configpageinit($pagename) {
 	if ($pagename == 'directory') {
 		$currentcomponent->addprocessfunc('directory_configprocess');
 		$currentcomponent->addguifunc('directory_configpageload');
-    	return true;
+		return true;
 	}
 	if ($pagename == 'ivr') {
 		$action	= isset($_REQUEST['action'])
@@ -112,7 +112,7 @@ function directory_configpageinit($pagename) {
 				$currentcomponent->addoptlistitem('directdial', $dir['id'], $name);
 			}
 		}
-    return true;
+		return true;
 	}
 
 	// We only want to hook 'users' or 'extensions' pages.
@@ -290,7 +290,7 @@ function directory_draw_entries($id){
 	$newuser .= '<option value="all">'._('All Users').'</option>';
 	$newuser .= '<option value="|">'._('Custom').'</option>';
 
-  //TODO: could this cause a problem with the '|' separator if a name has a '|' in it? (probably not check for comment where parsed
+	//TODO: could this cause a problem with the '|' separator if a name has a '|' in it? (probably not check for comment where parsed
 	foreach((array) core_users_list() as $user){
 		$newuser .= '<option value="'.$user[0].'|'.$user[1].'">('.$user[0].') '.$user[1]."</option>\n";
 	}
@@ -315,7 +315,7 @@ function directory_draw_entries_tr($id, $realid, $name = '',$foreign_name, $audi
 	}
 	$e_id = $e_id ? $e_id : directory_get_next_id($realid);
 	if (!$audio_select || !$reuse_audio) {
- 		unset($audio_select);
+		unset($audio_select);
 		$audio_select = '<select name="entries['.$e_id.'][audio]">';
 		$audio_select .= '<option value="vm" '.(($audio=='vm')?'SELECTED':'').'>'._('Voicemail Greeting').'</option>';
 		$audio_select .= '<option value="tts" '.(($audio=='tts')?'SELECTED':'').'>'._('Text to Speech').'</option>';
@@ -375,7 +375,7 @@ function directory_draw_entries_tr($id, $realid, $name = '',$foreign_name, $audi
 function directory_draw_entries_all_users($id){
 	$html='';
 	foreach(core_users_list() as $user){
-    	$html .= directory_draw_entries_tr($id, $user[0], '', $user[1], 'vm', '',$id++, true);
+		$html .= directory_draw_entries_tr($id, $user[0], '', $user[1], 'vm', '',$id++, true);
 	}
 	return $html;
 }
@@ -485,12 +485,12 @@ function directory_set_default($extension, $value) {
 		return false;
 	}
 	if ($value) {
-    $entries = sql("SELECT COUNT(*) FROM directory_entries WHERE id = $default_directory_id AND foreign_id = '$extension'","getOne");
-    if (!$entries) {
+		$entries = sql("SELECT COUNT(*) FROM directory_entries WHERE id = $default_directory_id AND foreign_id = '$extension'","getOne");
+		if (!$entries) {
 			$e_id = sql("SELECT MAX(e_id) FROM directory_entries WHERE e_id IS NOT null", "getOne");
 			$e_id = $e_id + 1;
-		  sql("INSERT INTO directory_entries (id, e_id, type, foreign_id, audio) VALUES ($default_directory_id, '$e_id', 'user', '$extension', 'vm')");
-    }
+			sql("INSERT INTO directory_entries (id, e_id, type, foreign_id, audio) VALUES ($default_directory_id, '$e_id', 'user', '$extension', 'vm')");
+		}
 	} else {
 		sql("DELETE FROM directory_entries WHERE id = $default_directory_id AND foreign_id = '$extension'");
 	}
